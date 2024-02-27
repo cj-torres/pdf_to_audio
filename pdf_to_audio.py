@@ -6,6 +6,10 @@ from openai import OpenAI
 
 MAX_LEN = 2048
 
+CLEANING_PROMPT = "You are an assistant for cleaning text. You provide cleaned text for being fed into a \
+text-to-speech model. Please clean the text, removing things like, emails, titles, or other things which are \
+not intended to be read aloud as part of the text or that would sound unnatural. Otherwise keep the text in-tact. \
+Provide no additional text or edits in your response. \n\n\n"
 
 def max_split(text):
     if len(text) < MAX_LEN:
@@ -27,7 +31,7 @@ def max_split(text):
 
 
 def concatenate_audio(files, output_file):
-    inputs = (ffmpeg.input(files))
+    inputs = [ffmpeg.input(file) for file in files]
     joined = ffmpeg.concat(*inputs, v=0, a=1).node
     ffmpeg.output(joined[0], output_file).run(overwrite_output=True)
 
@@ -39,6 +43,7 @@ if __name__ == '__main__':
     parser.add_argument('source_file', type=str, help='The source text file to convert')
     parser.add_argument('new_file', type=str, help='The output audio file name')
     parser.add_argument('voice', type=str, help='The voice to be used for conversion')
+    #parser.add_argument('clean', type=bool, help='The voice to be used for conversion', action='store_true')
 
     args = parser.parse_args()
 
@@ -48,8 +53,20 @@ if __name__ == '__main__':
             text += page.get_text()
 
     text_blocks = max_split(text)
-
     client = OpenAI()
+
+    #if args.clean:
+    #    clean_blocks = []
+    #    for text_block in text_blocks:
+    #        response = client.chat.completions.create(
+    #            model="gpt-3.5-turbo",
+    #            messages=[
+    #                {"role": "system", "content": CLEANING_PROMPT},
+    #                {"role": "user", "content": text_block}
+    #            ]
+    #        )
+    #        clean_blocks.append(response.choices[0].message.content)
+    #    text_blocks = clean_blocks
 
     sub_files = []
     for i, text in enumerate(text_blocks):
