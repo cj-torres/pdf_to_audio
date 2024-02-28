@@ -2,7 +2,7 @@
 
 This is a simple tool for converting PDFs to MP3 files using OpenAI. I have used this to let me listen to papers while programming. Note that this works best for papers where diagram reading is not important. Also the wisdom off converting PDF files to audio is questionable anyways.
 
-This requires FFMPEG to be installed, an OpenAI API key (your own!) as well as the following libraries:
+This requires FFmpeg to be installed, an OpenAI API key (your own!) as well as the following libraries:
 
 1. openai
 2. ffmpeg-python
