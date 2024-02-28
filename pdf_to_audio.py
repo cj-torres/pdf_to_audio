@@ -11,6 +11,7 @@ text-to-speech model. Please clean the text, removing things like, emails, title
 not intended to be read aloud as part of the text. Otherwise keep the text in-tact. \
 Provide no additional text or edits in your response. \n\n\n"
 
+
 def max_split(text):
     if len(text) < MAX_LEN:
         return [text]
@@ -57,8 +58,13 @@ if __name__ == '__main__':
     parser.add_argument('new_file', type=str, help='The output audio file name')
     parser.add_argument('voice', type=str, help='The voice to be used for conversion')
     parser.add_argument('-clean', action='store_true', help='Clean the text before conversion')
+    parser.add_argument('-output_dir', type=str, help='Output directory', default='pdf-to-audio-output')
+
 
     args = parser.parse_args()
+
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
 
     with fitz.open(args.source_file) as doc:
         text = ""
@@ -78,9 +84,9 @@ if __name__ == '__main__':
             voice = args.voice,
             input = text
         )
-        sub_files.append(f'output/{args.new_file}_{i}.mp3')
-        response.write_to_file(f'output/{args.new_file}_{i}.mp3')
-    concatenate_audio(sub_files, f'output/{args.new_file}.mp3')
+        sub_files.append(f'{args.output_dir}/{args.new_file}_{i}.mp3')
+        response.write_to_file(f'{args.output_dir}/{args.new_file}_{i}.mp3')
+    concatenate_audio(sub_files, f'{args.output_dir}/{args.new_file}.mp3')
     for file in sub_files:
         os.remove(file)
 
