@@ -10,6 +10,6 @@ This requires FFmpeg to be installed, an OpenAI API key (your own!) as well as t
 
 After that, from the command prompt simply run
 
-    python pdf_to_audio.py pdf_filename output_filename voice -clean
+    python pdf_to_audio.py pdf_filename.pdf output_filename voice -clean -output_dir output
 
-The clean flag is optional, but uses ChatGPT to clean out artifacts and unwanted gunk from the PDF (clever regex solutions welcomed). The voice argument should be the chosen OpenAI voice model (e.g. onyx).
+Note that the output file does not take a file extension. The clean flag is optional, but uses ChatGPT to clean out artifacts and unwanted gunk from the PDF (clever regex solutions welcomed). The voice argument should be the chosen OpenAI voice model (e.g. onyx). The -output_dir is optional and defaults to pdf-to-audio-output.
