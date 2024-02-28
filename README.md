@@ -12,4 +12,4 @@ After that, from the command prompt simply run
 
     python pdf_to_audio.py pdf_filename output_filename voice -clean
 
-The clean flag is optional, but uses ChatGPT to clean out artifacts and unwanted gunk from the PDF (clever regex solutions welcomed).
+The clean flag is optional, but uses ChatGPT to clean out artifacts and unwanted gunk from the PDF (clever regex solutions welcomed). The voice argument should be the chosen OpenAI voice model (e.g. onyx).
